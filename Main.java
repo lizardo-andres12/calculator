@@ -11,7 +11,8 @@ public class Main {
         doublyLinkedList.addNode("5");
         doublyLinkedList.addNode("**");
         doublyLinkedList.addNode("2");
-        doublyLinkedList.addNode("k");
+        doublyLinkedList.addNode("+");
+        doublyLinkedList.addNode("4");
 
         DoublyLinkedList.Node currentNode = doublyLinkedList.head;
         while (currentNode != null) {
@@ -25,8 +26,13 @@ public class Main {
         }
         DoublyLinkedList.Node currentNode2 = doublyLinkedList.head;
         while (currentNode2 != null) {
-            System.out.println(currentNode2.data);
+            doublyLinkedList.resolveAdditionSubtraction();
             currentNode2 = currentNode2.next;
+        }
+        DoublyLinkedList.Node currentNode3 = doublyLinkedList.head;
+        while (currentNode3 != null) {
+            System.out.println(currentNode3.data);
+            currentNode3 = currentNode3.next;
         }
     }
 }

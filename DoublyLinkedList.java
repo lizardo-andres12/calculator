@@ -142,4 +142,71 @@ public class DoublyLinkedList {
             currentNode = currentNode.next;
         }
     }
+
+    public void resolveAdditionSubtraction() {
+        Node currentNode = head;
+        while (currentNode != null) {
+            // check addition
+            if (currentNode.data.equals("+")) {
+                // must convert the String values into doubles
+                double sum = (Double.parseDouble(currentNode.prev.data) + Double.parseDouble(currentNode.next.data));
+                Node nodeA = new Node(String.valueOf(sum)); // create a new node with the value of the sum
+
+                // checking following cases: prev and next of "+" are head and tail, prev of "+" is head, next of "+" is tail
+                if (currentNode.prev.prev == null && currentNode.next.next == null) {
+                    head = nodeA; // overwrite head
+                    head.prev = null; // reset prev to null
+                    tail = nodeA; // overwrite tail
+                    tail.next = null; // reset prev to null
+                }
+                else if (currentNode.prev.prev == null) {
+                    head = nodeA; // overwrite head
+                    head.next = currentNode.next.next; // set head's next pointer to the node after the second number
+                    currentNode.next.next.prev = head; // set head next to point back at head
+                }
+                else if (currentNode.next.next == null) {
+                    tail = nodeA; // overwrite tail
+                    tail.prev = currentNode.prev.prev; // set tail's prev pointer to the node before the first number
+                    currentNode.prev.prev.next = tail; // set tail prev to point back at tail
+                }
+                else {
+                    nodeA.prev = currentNode.prev.prev; // set the new node's prev value
+                    nodeA.next = currentNode.next.next; // set the new node's next value
+                    currentNode.prev.prev.next = nodeA; // set node's prev to point to node
+                    currentNode.next.next.prev = nodeA; // set node's next to point to node
+                }
+            }
+            // check subtraction
+            if (currentNode.data.equals("-")) {
+                // must convert the String values into doubles
+                double difference = (Double.parseDouble(currentNode.prev.data) - Double.parseDouble(currentNode.next.data));
+                Node nodeS = new Node(String.valueOf(difference)); // create a new node with the value of the difference
+
+                // checking following cases: prev and next of "-" are head and tail, prev of "-" is head, next of "-" is tail
+                if (currentNode.prev.prev == null && currentNode.next.next == null) {
+                    head = nodeS; // overwrite head
+                    head.prev = null; // reset prev to null
+                    tail = nodeS; // overwrite tail
+                    tail.next = null; // reset prev to null
+                }
+                else if (currentNode.prev.prev == null) {
+                    head = nodeS; // overwrite head
+                    head.next = currentNode.next.next; // set head's next pointer to the node after the second number
+                    currentNode.next.next.prev = head; // set head next to point back at head
+                }
+                else if (currentNode.next.next == null) {
+                    tail = nodeS; // overwrite tail
+                    tail.prev = currentNode.prev.prev; // set tail's prev pointer to the node before the first number
+                    currentNode.prev.prev.next = tail; // set tail prev to point back at tail
+                }
+                else {
+                    nodeS.prev = currentNode.prev.prev; // set the new node's prev value
+                    nodeS.next = currentNode.next.next; // set the new node's next value
+                    currentNode.prev.prev.next = nodeS; // set node's prev to point to node
+                    currentNode.next.next.prev = nodeS; // set node's next to point to node
+                }
+            }
+            currentNode = currentNode.next;
+        }
+    }
 }
