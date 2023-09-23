@@ -1,5 +1,5 @@
 public class DoublyLinkedList {
-
+    // calculator methods written in this class
     public Node head;
     public Node tail;
 
@@ -51,21 +51,92 @@ public class DoublyLinkedList {
                 // checking following cases: prev and next of "**" are head and tail, prev of "**" is head, next of "**" is tail
                 if (currentNode.prev.prev == null && currentNode.next.next == null) {
                     head = node; // overwrite head
+                    head.prev = null; // reset prev to null
                     tail = node; // overwrite tail
+                    tail.next = null; // reset prev to null
                 }
                 else if (currentNode.prev.prev == null) {
                     head = node; // overwrite head
                     head.next = currentNode.next.next; // set head's next pointer to the node after the exponent
+                    currentNode.next.next.prev = head; // set head next to point back at head
                 }
                 else if (currentNode.next.next == null) {
                     tail = node; // overwrite tail
                     tail.prev = currentNode.prev.prev; // set tail's prev pointer to the node before the multiplicand
+                    currentNode.prev.prev.next = tail; // set tail prev to point back at tail
                 }
                 else {
                     node.prev = currentNode.prev.prev; // set the new node's prev value
                     node.next = currentNode.next.next; // set the new node's next value
                     currentNode.prev.prev.next = node; // set node's prev to point to node
                     currentNode.next.next.prev = node; // set node's next to point to node
+                }
+            }
+            currentNode = currentNode.next;
+        }
+    }
+
+    public void resolveMultiplyDivide() {
+        Node currentNode = head;
+        while (currentNode != null) {
+            // check multiplication
+            if (currentNode.data.equals("*")) {
+                // must convert the String values into doubles
+                double product = (Double.parseDouble(currentNode.prev.data) * Double.parseDouble(currentNode.next.data));
+                Node nodeP = new Node(String.valueOf(product)); // create a new node with the value of the product
+
+                // checking following cases: prev and next of "*" are head and tail, prev of "*" is head, next of "*" is tail
+                if (currentNode.prev.prev == null && currentNode.next.next == null) {
+                    head = nodeP; // overwrite head
+                    head.prev = null; // reset prev to null
+                    tail = nodeP; // overwrite tail
+                    tail.next = null; // reset prev to null
+                }
+                else if (currentNode.prev.prev == null) {
+                    head = nodeP; // overwrite head
+                    head.next = currentNode.next.next; // set head's next pointer to the node after the multiplier
+                    currentNode.next.next.prev = head; // set head next to point back at head
+                }
+                else if (currentNode.next.next == null) {
+                    tail = nodeP; // overwrite tail
+                    tail.prev = currentNode.prev.prev; // set tail's prev pointer to the node before the multiplicand
+                    currentNode.prev.prev.next = tail; // set tail prev to point back at tail
+                }
+                else {
+                    nodeP.prev = currentNode.prev.prev; // set the new node's prev value
+                    nodeP.next = currentNode.next.next; // set the new node's next value
+                    currentNode.prev.prev.next = nodeP; // set node's prev to point to node
+                    currentNode.next.next.prev = nodeP; // set node's next to point to node
+                }
+            }
+            // check division
+            if (currentNode.data.equals("/")) {
+                // must convert the String values into doubles
+                double quotient = (Double.parseDouble(currentNode.prev.data) / Double.parseDouble(currentNode.next.data));
+                Node nodeQ = new Node(String.valueOf(quotient)); // create a new node with the value of the quotient
+
+                // checking following cases: prev and next of "/" are head and tail, prev of "/" is head, next of "/" is tail
+                if (currentNode.prev.prev == null && currentNode.next.next == null) {
+                    head = nodeQ; // overwrite head
+                    head.prev = null; // reset prev to null
+                    tail = nodeQ; // overwrite tail
+                    tail.next = null; // reset prev to null
+                }
+                else if (currentNode.prev.prev == null) {
+                    head = nodeQ; // overwrite head
+                    head.next = currentNode.next.next; // set head's next pointer to the node after the divisor
+                    currentNode.next.next.prev = head; // set head next to point back at head
+                }
+                else if (currentNode.next.next == null) {
+                    tail = nodeQ; // overwrite tail
+                    tail.prev = currentNode.prev.prev; // set tail's prev pointer to the node before the dividend
+                    currentNode.prev.prev.next = tail; // set tail prev to point back at tail
+                }
+                else {
+                    nodeQ.prev = currentNode.prev.prev; // set the new node's prev value
+                    nodeQ.next = currentNode.next.next; // set the new node's next value
+                    currentNode.prev.prev.next = nodeQ; // set node's prev to point to node
+                    currentNode.next.next.prev = nodeQ; // set node's next to point to node
                 }
             }
             currentNode = currentNode.next;
