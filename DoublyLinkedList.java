@@ -40,6 +40,35 @@ public class DoublyLinkedList {
     }
 
     public void resolveExponent() {
+        Node currentNode = head;
+        while (currentNode != null) {
+            if (currentNode.data.equals("**")) {
 
+                // must convert the String values into doubles
+                double product = Math.pow(Double.parseDouble(currentNode.prev.data), Double.parseDouble(currentNode.next.data));
+                Node node = new Node(String.valueOf(product)); // create a new node with the value of the product
+
+                // checking following cases: prev and next of "**" are head and tail, prev of "**" is head, next of "**" is tail
+                if (currentNode.prev.prev == null && currentNode.next.next == null) {
+                    head = node; // overwrite head
+                    tail = node; // overwrite tail
+                }
+                else if (currentNode.prev.prev == null) {
+                    head = node; // overwrite head
+                    head.next = currentNode.next.next; // set head's next pointer to the node after the exponent
+                }
+                else if (currentNode.next.next == null) {
+                    tail = node; // overwrite tail
+                    tail.prev = currentNode.prev.prev; // set tail's prev pointer to the node before the multiplicand
+                }
+                else {
+                    node.prev = currentNode.prev.prev; // set the new node's prev value
+                    node.next = currentNode.next.next; // set the new node's next value
+                    currentNode.prev.prev.next = node; // set node's prev to point to node
+                    currentNode.next.next.prev = node; // set node's next to point to node
+                }
+            }
+            currentNode = currentNode.next;
+        }
     }
 }
