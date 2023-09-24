@@ -85,12 +85,12 @@ public class DoublyLinkedList {
     public void resolveExponent() {
         Node currentNode = head;
         while (currentNode != null) {
-            if (currentNode.data.equals("**")) {
+            if (currentNode.data.equals("^")) {
                 // must convert the String values into doubles
                 double product = Math.pow(Double.parseDouble(currentNode.prev.data), Double.parseDouble(currentNode.next.data));
                 Node node = new Node(String.valueOf(product)); // create a new node with the value of the product
 
-                // checking following cases: prev and next of "**" are head and tail, prev of "**" is head, next of "**" is tail
+                // checking following cases: prev and next of "^" are head and tail, prev of "^" is head, next of "^" is tail
                 if (currentNode.prev.prev == null && currentNode.next.next == null) {
                     head = node; // overwrite head
                     head.prev = null; // reset prev to null
@@ -327,5 +327,33 @@ public class DoublyLinkedList {
             }
             currentNode = currentNode.next;
         }
+    }
+
+    public void evaluate() {
+        DoublyLinkedList.Node currentNode = head;
+        while (currentNode != null) {
+            resolveParenthesis();
+            currentNode = currentNode.next;
+        }
+        DoublyLinkedList.Node currentNodeE = head;
+        while (currentNodeE != null) {
+            resolveExponent();
+            currentNodeE = currentNodeE.next;
+        }
+        DoublyLinkedList.Node currentNode1 = head;
+        while (currentNode1 != null) {
+            resolveMultiplyDivide();
+            currentNode1 = currentNode1.next;
+        }
+        DoublyLinkedList.Node currentNode2 = head;
+        while (currentNode2 != null) {
+            resolveAddSubtract();
+            currentNode2 = currentNode2.next;
+        }
+    }
+
+    public void clear() {
+        head = null;
+        tail = null;
     }
 }
