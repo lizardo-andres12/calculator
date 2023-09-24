@@ -183,14 +183,8 @@ public class Frame extends JFrame implements ActionListener {
                 input = "";
             }
             catch (NumberFormatException numberFormatException) {
-                String message = "Error: number cannot be processed";
+                String message = "Error: not a correct expression";
                 display.setText(message);
-            }
-            catch (NullPointerException nullPointerException) {
-                String message = "Error: not a complete statement";
-            }
-            catch (ArithmeticException arithmeticException) {
-                String message = "Error: expression is arithmetically incorrect";
             }
             catch (Exception exception) {
                 String message = "Error: Logic Error";
