@@ -20,6 +20,7 @@ public class Frame extends JFrame implements ActionListener {
     private final JButton eight = new JButton("8");
     private final JButton nine = new JButton("9");
     private final JButton zero = new JButton("0");
+    private final JButton decimal = new JButton(".");
     private final JButton plusSign = new JButton("+");
     private final JButton minusSign = new JButton("-");
     private final JButton multiplicationSign = new JButton("*");
@@ -49,44 +50,46 @@ public class Frame extends JFrame implements ActionListener {
         panel.setLayout(new GridLayout(5, 4));
         this.add(panel);
 
-        one.addActionListener(this);
-        panel.add(one);
-        two.addActionListener(this);
-        panel.add(two);
-        three.addActionListener(this);
-        panel.add(three);
-        four.addActionListener(this);
-        panel.add(four);
-        five.addActionListener(this);
-        panel.add(five);
-        six.addActionListener(this);
-        panel.add(six);
+        clear.addActionListener(this);
+        panel.add(clear);
+        openParenthesis.addActionListener(this);
+        panel.add(openParenthesis);
+        closeParenthesis.addActionListener(this);
+        panel.add(closeParenthesis);
+        exponentSign.addActionListener(this);
+        panel.add(exponentSign);
         seven.addActionListener(this);
         panel.add(seven);
         eight.addActionListener(this);
         panel.add(eight);
         nine.addActionListener(this);
         panel.add(nine);
-        zero.addActionListener(this);
-        panel.add(zero);
-        plusSign.addActionListener(this);
-        panel.add(plusSign);
-        minusSign.addActionListener(this);
-        panel.add(minusSign);
-        multiplicationSign.addActionListener(this);
-        panel.add(multiplicationSign);
         divisionSign.addActionListener(this);
         panel.add(divisionSign);
-        exponentSign.addActionListener(this);
-        panel.add(exponentSign);
-        openParenthesis.addActionListener(this);
-        panel.add(openParenthesis);
-        closeParenthesis.addActionListener(this);
-        panel.add(closeParenthesis);
+        four.addActionListener(this);
+        panel.add(four);
+        five.addActionListener(this);
+        panel.add(five);
+        six.addActionListener(this);
+        panel.add(six);
+        multiplicationSign.addActionListener(this);
+        panel.add(multiplicationSign);
+        one.addActionListener(this);
+        panel.add(one);
+        two.addActionListener(this);
+        panel.add(two);
+        three.addActionListener(this);
+        panel.add(three);
+        plusSign.addActionListener(this);
+        panel.add(plusSign);
+        decimal.addActionListener(this);
+        panel.add(decimal);
+        zero.addActionListener(this);
+        panel.add(zero);
         equalsSign.addActionListener(this);
         panel.add(equalsSign);
-        clear.addActionListener(this);
-        panel.add(clear);
+        minusSign.addActionListener(this);
+        panel.add(minusSign);
     }
 
     @Override
@@ -131,33 +134,47 @@ public class Frame extends JFrame implements ActionListener {
             input+="0";
             display.setText(display.getText()+"0");
         }
+        if (event.getSource() == decimal) {
+            input+=".";
+            display.setText(display.getText()+".");
+        }
         if (event.getSource() == plusSign) {
-            expression.addNode(input);
-            input = "";
+            if (!input.isEmpty()) {
+                expression.addNode(input);
+                input = "";
+            }
             expression.addNode("+");
             display.setText(display.getText()+"+");
         }
         if (event.getSource() == minusSign) {
-            expression.addNode(input);
-            input = "";
+            if (!input.isEmpty()) {
+                expression.addNode(input);
+                input = "";
+            }
             expression.addNode("-");
             display.setText(display.getText()+"-");
         }
         if (event.getSource() == multiplicationSign) {
-            expression.addNode(input);
-            input = "";
+            if (!input.isEmpty()) {
+                expression.addNode(input);
+                input = "";
+            }
             expression.addNode("*");
             display.setText(display.getText()+"*");
         }
         if (event.getSource() == divisionSign) {
-            expression.addNode(input);
-            input = "";
+            if (!input.isEmpty()) {
+                expression.addNode(input);
+                input = "";
+            }
             expression.addNode("/");
             display.setText(display.getText()+"/");
         }
         if (event.getSource() == exponentSign) {
-            expression.addNode(input);
-            input = "";
+            if (!input.isEmpty()) {
+                expression.addNode(input);
+                input = "";
+            }
             expression.addNode("^");
             display.setText(display.getText()+"^");
         }
@@ -170,17 +187,19 @@ public class Frame extends JFrame implements ActionListener {
             display.setText(display.getText()+"(");
         }
         if (event.getSource() == closeParenthesis) {
-            expression.addNode(input);
-            input = "";
+            if (!input.isEmpty()) {
+                expression.addNode(input);
+                input = "";
+            }
             expression.addNode(")");
             display.setText(display.getText()+")");
         }
         if (event.getSource() == equalsSign) {
-            expression.addNode(input);
             try {
+                expression.addNode(input);
                 expression.evaluate();
                 display.setText(expression.head.data);
-                input = "";
+                input = expression.head.data;
             }
             catch (NumberFormatException numberFormatException) {
                 String message = "Error: not a correct expression";
@@ -192,6 +211,7 @@ public class Frame extends JFrame implements ActionListener {
         }
         if (event.getSource() == clear) {
             display.setText("");
+            input = "";
             expression.clear();
         }
     }
