@@ -162,8 +162,10 @@ public class Frame extends JFrame implements ActionListener {
             display.setText(display.getText()+"^");
         }
         if (event.getSource() == openParenthesis) {
-            expression.addNode(input);
-            input = "";
+            if (!input.isEmpty()) {
+                expression.addNode(input);
+                input = "";
+            }
             expression.addNode("(");
             display.setText(display.getText()+"(");
         }
@@ -175,9 +177,24 @@ public class Frame extends JFrame implements ActionListener {
         }
         if (event.getSource() == equalsSign) {
             expression.addNode(input);
-            expression.evaluate();
-            display.setText(expression.head.data);
-            input = "";
+            try {
+                expression.evaluate();
+                display.setText(expression.head.data);
+                input = "";
+            }
+            catch (NumberFormatException numberFormatException) {
+                String message = "Error: number cannot be processed";
+                display.setText(message);
+            }
+            catch (NullPointerException nullPointerException) {
+                String message = "Error: not a complete statement";
+            }
+            catch (ArithmeticException arithmeticException) {
+                String message = "Error: expression is arithmetically incorrect";
+            }
+            catch (Exception exception) {
+                String message = "Error: Logic Error";
+            }
         }
         if (event.getSource() == clear) {
             display.setText("");

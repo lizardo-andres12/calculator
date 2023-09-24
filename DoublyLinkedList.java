@@ -329,7 +329,7 @@ public class DoublyLinkedList {
         }
     }
 
-    public void evaluate() {
+    public void evaluate() throws Exception {
         DoublyLinkedList.Node currentNode = head;
         while (currentNode != null) {
             resolveParenthesis();
